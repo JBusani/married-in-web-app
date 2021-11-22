@@ -1,0 +1,25 @@
+html{
+    background-color: #DDC3D0;
+    box-sizing: border-box;
+}
+.wrapper{
+    padding: 20px;
+}
+.view{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+}
+.viewButton{
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 20px;
+    padding: 20px;
+    border-radius: 30px;
+    box-shadow: 4px 4px grey;
+}
+.viewButton:hover{
+    cursor: pointer;
+    background-color: grey;
+}

@@ -1,0 +1,26 @@
+.card{
+    padding: 40px;
+    box-shadow: 5px 5px black;
+    border: black solid 2px;
+    background-color: #307351; /*amazon*/
+}
+.editButton{
+  position: relative;
+  width: 100%;
+}
+.familyContainer{
+    border: black 1px solid;
+    background-color: ghostwhite;
+}
+.familyName{
+    text-align: center;
+    font-size: 1.5rem;
+    padding: 20px
+}
+.parentContainer, .childContainer{
+    display: flex;
+    justify-content: space-around;
+}
+.parent, .childContainer{
+    padding: 10px;
+}

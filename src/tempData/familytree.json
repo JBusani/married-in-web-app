@@ -1,0 +1,21 @@
+[
+    {
+        "familyID": "1",
+        "familyName": "Bersani",
+        "headOfHouse": ["Michael", "Sharon"],
+        "children": ["Jake", "Jessica", "Nicholas", "Rebecca"]
+    },
+    {
+        "familyID": "2",
+        "familyName": "Wrobel",
+        "headOfHouse": ["Jessica", "Sam"],
+        "children": ["Eleanor", "Wallace", "Cora"]
+    },
+    {
+        "familyID": "3",
+        "familyName": "Bersani",
+        "headOfHouse": ["Joe", "Brenda"],
+        "children": ["Nicole"]
+    }
+    
+]  
