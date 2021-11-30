@@ -1,33 +1,49 @@
-import React, { useState } from 'react'
+import React, {useState} from 'react';
 
-export default function Signin() {
-    const [state , setState ] = useState();
+import {
+    signInWithEmailAndPassword,
+  } from "firebase/auth";
+import { auth } from './Firebase';
 
-    function handleSubmit(event){
-        alert('A form was submitted : ' + state.value)
-        event.preventDefault();
+
+const SignIn = () => {
+
+const [loginEmail, setLoginEmail] = useState("");
+const [loginPassword, setLoginPassword] = useState("");
+
+const login = async () => {
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth,
+        loginEmail,
+        loginPassword
+      );
+      console.log(user);
+    } catch (error) {
+      console.log(error.message);
     }
-    return (
-        <>
-            <div className="card">
-                <div className="cardBody">
-                    <h2 className="text">Sign Up</h2>
-                    <form onSubmit={handleSubmit}>
-                        <label>
-                            Email:
-                            <input type="email" name="email" />
-                        </label>
-                        <label>
-                            Password:
-                            <input type="text" name="password"></input>
-                        </label>
-                        <input type="submit" value="Submit" />
-                    </form>
-                </div>
-            </div>
-            <div className="">
-                Forgot Password? Reset Password
-            </div>
-        </>
-    )
+  };
+  
+  return (
+    <div>
+        <h3> Login </h3>
+        <input
+          placeholder="Email..."
+          onChange={(event) => {
+            setLoginEmail(event.target.value);
+          }}
+        />
+        <input
+          type="password"
+          placeholder="Password..."
+          onChange={(event) => {
+            setLoginPassword(event.target.value);
+          }}
+        />
+        <button onClick={login}> Login</button>
+    </div>
+  )
+
 }
+
+export default SignIn;

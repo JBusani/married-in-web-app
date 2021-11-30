@@ -1,66 +1,59 @@
-import React, { useRef, useState } from 'react'
-import { useAuth } from '../contexts/AuthContext'
-
-export default function SignUp() {
-    const [state , setState ] = useState();
-    const { signup, currentUser } = useAuth();
-    const emailRef = useRef()
-    const passwordRef = useRef()
-    const passwordConfirmRef = useRef();
-    const [ error, setError ] = useState('');
+import React, { useRef, useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
+  
+const SignUp = () => {
+  const { createAccount } = useAuth();
+    const [errors, setErrors] = useState("")
     const [ loading, setLoading ] = useState(false);
+    const email = useRef('');
+    const password = useRef('');
+    const passwordConfirm = useRef('');
 
-    async function handleSubmit(event){
-        alert('A form was submitted : ' + state.value)
-        console.log(emailRef);
-        console.log(passwordRef);
-        
-        event.preventDefault();        
-        if (passwordRef.current.value !== passwordConfirmRef.current.ref){
-            return setError("Passwords do not match");
+
+    const register = async (event) => {
+      const e = email.current.value
+      const p = password.current.value
+      const pc = passwordConfirm.current.value
+        event.preventDefault();
+        if(p !== pc){
+          return setErrors("Passwords do not match");
         }
-
-        try{
-            setError('');
-            setLoading(true);
-           await signup(emailRef.current.value, passwordRef.current.value)
-        }catch{
-            setError("Failed to create an account");
+        try {
+          setErrors('');
+          setLoading(true);
+          await createAccount(e, p);
+        } catch (error) {
+          setErrors("Failed to create an account");
+          console.log(errors)
+          
         }
-
         setLoading(false);
-    }
+      };
 
+  
     return (
-        <>
-            <div>
-                <div>
-                    <h2 className="text">Sign Up</h2>
-                    {error && <p>{error}</p>}
-                    <form onSubmit={handleSubmit} >
-                        <label>
-                            First and Last Name:
-                            <input type="text" name="fullName" required />
-                        </label>
-                        <label>
-                            Email:
-                            <input type="email" name="email" required ref={emailRef} />
-                        </label>
-                        <label>
-                            Password:
-                            <input type="text" name="password" required ref={passwordRef}></input>
-                        </label>
-                        <label>
-                            Confirm Password:
-                            <input type="text" name="passwordConfirm" required ref={passwordConfirmRef}></input>
-                        </label>
-                        <input disabled={loading} type="submit" value="Submit" />
-                    </form>
-                </div>
-            </div>
-            <div className="">
-                Alread have an account? Log In;
-            </div>
-        </>
+        <div>
+        {errors}
+        <form onSubmit={register} style={{display:"block"}}>
+          <h3> Register User </h3>
+          <input
+            placeholder="Email..."
+            ref={email}
+          />
+          <input
+            type="password"
+            placeholder="Password..."
+            ref={password}
+          />
+          <input
+            type="password"
+            placeholder="Confirm Password..."
+            ref={passwordConfirm}
+          />
+          <button type="submit" disabled={loading}> Create User</button>
+        </form>
+        </div>
     )
-}
+  }
+
+  export default SignUp;
