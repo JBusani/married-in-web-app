@@ -1,6 +1,14 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box; /* Internet Explorer 8 */
+    -webkit-box-sizing: border-box; /* Safari 3 */
+    -khtml-box-sizing: border-box; /* Konqueror */
+}
 html{
     background-color: #DDC3D0;
     box-sizing: border-box;
+    font-size: 16px;
 }
 .wrapper{
     padding: 20px;

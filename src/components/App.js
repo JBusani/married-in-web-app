@@ -5,12 +5,7 @@ import styles from '../index.module.css';
 import FamilyCard from './FamilyCard';
 import SignUp from './SignUp';
 import SignIn from './SignIn';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-} from "firebase/auth";
+import { useAuth } from "../contexts/AuthContext";
 import { AuthProvider } from "../contexts/AuthContext";
 
 function App() {
@@ -27,10 +22,9 @@ function App() {
 
   return (
     <div className="App">
-      
       <AuthProvider>
         <SignUp />
-      </AuthProvider>
+      
 
 
       <h4> User Logged In: </h4>
@@ -49,7 +43,8 @@ function App() {
              </div>
             <FamilyCard family={Tree[view]} />
          </Layout>      
-     </div>
+      </div>
+     </AuthProvider>
     </div>
   );
 }
