@@ -2,8 +2,10 @@ import React, { useRef, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import styles from "./form.module.css";
 import img from "../assets/signupbackground.jpg"
+import { Link, useNavigate } from "react-router-dom";
   
 const SignUp = () => {
+  let navigate = useNavigate();
   const { createAccount } = useAuth();
     const [errors, setErrors] = useState("")
     const [ loading, setLoading ] = useState(false);
@@ -24,6 +26,7 @@ const SignUp = () => {
           setErrors('');
           setLoading(true);
           await createAccount(e, p);
+          navigate("/", {replace: true})
         }catch(error){
           const message = error.code;
           console.log(message)
@@ -79,8 +82,8 @@ const SignUp = () => {
             disabled={loading}
             className={styles.submitButton}
             > Create User</button>
+          <p>Already have an account? <Link to="../signin">Sign In</Link></p>
         </form>
-        
         </div>
     )
   }
