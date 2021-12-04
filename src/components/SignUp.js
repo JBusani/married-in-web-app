@@ -25,8 +25,10 @@ const SignUp = () => {
         try {
           setErrors('');
           setLoading(true);
-          await createAccount(e, p);
-          navigate("/", {replace: true})
+          await createAccount(e, p).then(()=>{
+            setLoading(false)
+            navigate("/", {replace: true})
+          })
         }catch(error){
           const message = error.code;
           console.log(message)
@@ -37,10 +39,7 @@ const SignUp = () => {
             default:
               setErrors('Failed to create an account')   
           }
-          
-          
         }
-        setLoading(false);
       };
 
   

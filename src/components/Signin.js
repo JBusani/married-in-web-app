@@ -7,22 +7,24 @@ import { Link, useNavigate } from "react-router-dom";
   
 const SignIn = () => {
   let navigate = useNavigate();
-  const { login } = useAuth();
+  const { signin } = useAuth();
     const [errors, setErrors] = useState("")
     const [ loading, setLoading ] = useState(false);
     const email = useRef('');
     const password = useRef('');
 
 
-    const signin = async (event) => {
+    const signinAccount = async (event) => {
       const e = email.current.value
       const p = password.current.value
         event.preventDefault();
         try {
           setErrors('');
           setLoading(true);
-          await login(e, p);
-          navigate("/", {replace: true})
+          await signin(e, p).then(()=>{
+            setLoading(false)
+            navigate("/", {replace: true})
+          })
         }catch(error){
           const message = error.code;
           console.log(message)
@@ -31,12 +33,11 @@ const SignIn = () => {
               setErrors("Email address already registered")
               break;
             default:
-              setErrors('Failed to sign in')   
+              setErrors(message)   
           }
-          
-          
         }
-        setLoading(false);
+        
+        
       };
 
   
@@ -47,7 +48,7 @@ const SignIn = () => {
             backgroundPosition: "center",
             backgroundSize: "contain"
             }}>
-        <form onSubmit={signin} className={styles.form}>
+        <form onSubmit={signinAccount} className={styles.form}>
           <h3 className={styles.title}> Log In</h3>
           <p className={styles.errors}>{errors}</p>
           <input

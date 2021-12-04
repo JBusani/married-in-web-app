@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react"
 import { auth } from "../components/Firebase"
-import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from "firebase/auth";
 
 const AuthContext = React.createContext()
 
@@ -13,24 +13,32 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
 
   function createAccount(email, password){
-      return createUserWithEmailAndPassword(auth, email, password)
+    const user = createUserWithEmailAndPassword(auth, email, password)
+    return user;
   }
 
-  function login(email, password){
-    return signInWithEmailAndPassword(auth, email, password)
-}
+  function signin(email, password){
+    const signedin = signInWithEmailAndPassword(auth, email, password)
+    return signedin;
+  }
+  function logout(){
+    const loggedOut = signOut(auth);
+    return loggedOut;
+  }
   useEffect(()=>{
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user)
-      console.log(user);
-      setLoading(false)
+      console.log(loading);
+      setLoading(false);
+      console.log(`still loading effect: ${loading}`)
     })
     return unsubscribe
   }, [])
   const value = {
     currentUser,
     createAccount,
-    login,
+    signin,
+    logout,
   }
 
   return (

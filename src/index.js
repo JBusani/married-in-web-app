@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import SignUp from './components/SignUp';
 import SignIn from './components/Signin';
+import Dashboard from './components/Dashboard';
 const rootElement = document.getElementById('app')
 ReactDOM.render(
     <React.StrictMode>
@@ -14,6 +15,7 @@ ReactDOM.render(
                     <Route exact path="/" element={<App />} />
                         <Route path="signup" element={<SignUp />}/>
                         <Route path="signin" element={<SignIn />} />
+                        <Route path="dashboard" element={<Dashboard />}/>
                         <Route
                             path="*"
                             element={
