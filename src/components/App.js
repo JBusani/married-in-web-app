@@ -8,7 +8,7 @@ export default function App() {
   return (
     <div>
       <Navigation />
-      <Dashboard />
+      
       <Outlet />
     </div>
   );

@@ -17,7 +17,7 @@ const Dashboard = () => {
     async function handleLogOut(){
         setErrors('');
         try{
-            logout().then(navigate("signin", {replace: true}));
+            logout().then(navigate("/signin", {replace: true}));
         }catch{
             setErrors('Failed to log out');
         }
@@ -25,17 +25,17 @@ const Dashboard = () => {
 
     return (
         <div className={styles.wrapper}>
-        <h2>Profile</h2>
-        {errors && <p>{errors}</p>}
-        <strong> Email: </strong>{currentUser?.email}
-        <button onClick={handleLogOut}>Sign Out</button>
-        <Link to="/update-profile">Update Profile</Link>
-        <h3 style={{textAlign: "center"}}> Families </h3>
-        <div className={styles.view}>
-            {Tree.map((f,index)=> (<button key={index} className={styles.viewButton} onClick={handleView} value={index}>{f.familyName} / {f.headOfHouse[0]}</button>))}
-            <button > + Create New </button>
-        </div>
-       <FamilyCard family={Tree[view]} />
+            <h2>Profile: {currentUser.email}</h2>
+            {errors && <p>{errors}</p>}
+            <strong> Email: </strong>{currentUser?.email}
+            <button onClick={handleLogOut}>Sign Out</button>
+            <Link to="/update-profile">Update Profile</Link>
+            <h3 style={{textAlign: "center"}}> Families </h3>
+            <div className={styles.view}>
+                {Tree.map((f,index)=> (<button key={index} className={styles.viewButton} onClick={handleView} value={index}>{f.familyName} / {f.headOfHouse[0]}</button>))}
+                <button > + Create New </button>
+            </div>
+            <FamilyCard family={Tree[view]} />
         </div>  
     )
 }

@@ -9,7 +9,7 @@ export function useAuth() {
 }
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState("jake")
+  const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true)
 
   function createAccount(email, password){
@@ -28,9 +28,7 @@ export function AuthProvider({ children }) {
   useEffect(()=>{
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user)
-      console.log(loading);
       setLoading(false);
-      console.log(`still loading effect: ${loading}`)
     })
     return unsubscribe
   }, [])

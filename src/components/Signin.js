@@ -2,11 +2,14 @@ import React, { useRef, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import styles from "./form.module.css";
 import img from "../assets/signupbackground.jpg"
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
   
 const SignIn = () => {
+  let location = useLocation();
   let navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/dashboard";
+
   const { signin } = useAuth();
     const [errors, setErrors] = useState("")
     const [ loading, setLoading ] = useState(false);
@@ -23,7 +26,7 @@ const SignIn = () => {
           setLoading(true);
           await signin(e, p).then(()=>{
             setLoading(false)
-            navigate("/", {replace: true})
+            navigate(from, {replace: true})
           })
         }catch(error){
           const message = error.code;

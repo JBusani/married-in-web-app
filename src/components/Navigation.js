@@ -1,14 +1,13 @@
 import React from "react";
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styles from './navigation.module.css'
+import { useAuth } from "../contexts/AuthContext";
 
 const Navigation = () => {
-
     return (
         <nav className={styles.navContainer}>
-            <Link className={styles.link} to="/">Home</Link>
-            <Link className={styles.link} to="/signup">Sign Up</Link>
-            <Link className={styles.link} to="/signin">Log In</Link>
+            <Link className={styles.link} to="/">Married In</Link>
+            <Link className={styles.link} to="dashboard">Dashboard</Link>
         </nav>
     )
 }
