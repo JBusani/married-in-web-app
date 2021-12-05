@@ -35,8 +35,11 @@ const SignIn = () => {
             case 'auth/email-already-in-use':
               setErrors("Email address already registered")
               break;
+            case 'auth/invalid-email':
+              setErrors("Invalid Email Address")
+              break;
             default:
-              setErrors(message)   
+              setErrors("Failed to sign in")   
           }
         }
         
@@ -45,12 +48,8 @@ const SignIn = () => {
 
   
     return (
-        <div className={styles.formContainer} 
-          style={{
-            background: `url(${img}) no-repeat`,
-            backgroundPosition: "center",
-            backgroundSize: "contain"
-            }}>
+       <div className={styles.formContainer}>
+            
         <form onSubmit={signinAccount} className={styles.form}>
           <h3 className={styles.title}> Log In</h3>
           <p className={styles.errors}>{errors}</p>
@@ -74,9 +73,11 @@ const SignIn = () => {
             disabled={loading}
             className={styles.submitButton}
             > Log In</button>
-          <p>Need an Account? <Link to="../signup">Sign Up</Link></p>
         </form>
-        </div>
+        <p>Need an Account? <Link to="../signup">Sign Up</Link></p>
+        <p>Forgot Password? <Link to="../forgot-password">Reset Password</Link></p>
+        <img src={img} alt="sign in" />
+      </div>
     )
   }
 

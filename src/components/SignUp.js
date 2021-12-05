@@ -36,6 +36,9 @@ const SignUp = () => {
             case 'auth/email-already-in-use':
               setErrors("Email address already registered")
               break;
+            case 'auth/invalid-email':
+              setErrors("Invalid Email Address")
+              break;
             default:
               setErrors('Failed to create an account')   
           }
@@ -44,12 +47,7 @@ const SignUp = () => {
 
   
     return (
-        <div className={styles.formContainer} 
-          style={{
-            background: `url(${img}) no-repeat`,
-            backgroundPosition: "center",
-            backgroundSize: "contain"
-            }}>
+        <div className={styles.formContainer} >
         <form onSubmit={register} className={styles.form}>
           <h3 className={styles.title}> Register User </h3>
           <p className={styles.errors}>{errors}</p>
@@ -83,6 +81,7 @@ const SignUp = () => {
             > Create User</button>
           <p>Already have an account? <Link to="../signin">Sign In</Link></p>
         </form>
+        <img src={img} alt="sign up" />
         </div>
     )
   }

@@ -8,13 +8,19 @@
 .formContainer{
     padding-top: 10px;
     margin: 0 auto;
-    max-width: 600px;
-    height: 600px;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+.formContainer img{
+    border-radius: 0px 0px 10px 10px;
 }
 .form{
-    display: block;
+    display: flex;
+    flex-direction: column;
     margin: 0 auto;
-    max-width: calc(100% - 4em);
+    max-width: calc(100% - 5em);
     text-align: center;
 }
 
@@ -31,4 +37,7 @@ input {
     border-radius: 10px;
     padding: 20px;
     background-color: #cf8c4e;
+}
+button:hover{
+    cursor: pointer;
 }

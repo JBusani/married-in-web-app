@@ -1,6 +1,7 @@
 .navContainer{
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 30px;
     border-bottom: green 2px solid;
