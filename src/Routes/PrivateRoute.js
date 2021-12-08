@@ -4,11 +4,11 @@ import { useLocation, Navigate, Route, Outlet} from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext';
 import Dashboard from '../components/Dashboard';
 
-export default function PrivateRoute({element: Element, ...rest}){
+export default function PrivateRoute(props){
+    const Comp = props.component
     const { currentUser } = useAuth();
-    console.log(currentUser)
     let location = useLocation();
-    let component = currentUser?.email ? <Dashboard  /> : <Navigate to="/signin" state={{from: location}} />
+    let component = currentUser?.email ? <Comp /> : <Navigate to="/signin" state={{from: location}} />
     return (
             <>
                 {component}

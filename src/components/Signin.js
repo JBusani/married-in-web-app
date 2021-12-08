@@ -21,6 +21,7 @@ const SignIn = () => {
       const e = email.current.value
       const p = password.current.value
         event.preventDefault();
+        
         try {
           setErrors('');
           setLoading(true);
@@ -30,7 +31,7 @@ const SignIn = () => {
           })
         }catch(error){
           const message = error.code;
-          console.log(message)
+          setLoading(false);
           switch (message){
             case 'auth/email-already-in-use':
               setErrors("Email address already registered")
@@ -41,6 +42,7 @@ const SignIn = () => {
             default:
               setErrors("Failed to sign in")   
           }
+          
         }
         
         
