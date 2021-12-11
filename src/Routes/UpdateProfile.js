@@ -27,7 +27,6 @@ const ProfileSettings = () => {
         if(p !== pc){
           return setErrors("Passwords do not match");
         }
-        console.group(typeof(e))
         const promises = []
         if (e !== currentUser.email){
           promises.push(updateUserEmail(e));

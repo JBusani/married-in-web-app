@@ -6,6 +6,7 @@ import {
   signOut,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
+  sendEmailVerification,
   reauthenticateWithCredential,
   updateEmail,
   updatePassword,
@@ -23,7 +24,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
 
   function createAccount(email, password){
-    const user = createUserWithEmailAndPassword(auth, email, password)
+    const user = createUserWithEmailAndPassword(auth, email, password);
     return user;
   }
 
@@ -44,7 +45,7 @@ export function AuthProvider({ children }) {
     return emailUpdated;
   }
   function updateUserPassword(newPassword){
-    const passwordUpdated = updateEmail(currentUser, newPassword);
+    const passwordUpdated = updatePassword(currentUser, newPassword);
     return passwordUpdated;
   }
   function updateUserProfile(displayName, photoURL){
@@ -60,6 +61,11 @@ export function AuthProvider({ children }) {
     })
     return unsubscribe
   }, [])
+
+  //DB firestore
+ 
+
+
   const value = {
     currentUser,
     createAccount,
@@ -69,6 +75,7 @@ export function AuthProvider({ children }) {
     updateUserEmail,
     updateUserPassword,
     updateUserProfile,
+    sendEmailVerification
   }
 
   return (

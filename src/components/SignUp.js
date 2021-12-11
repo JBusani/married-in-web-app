@@ -26,7 +26,6 @@ const SignUp = () => {
           setErrors('');
           setLoading(true);
           await createAccount(e, p).then((value)=>{
-            console.log(`from the create: ${value}`)
             setLoading(false)
             navigate("/dashboard", {replace: true})
           })
@@ -38,6 +37,12 @@ const SignUp = () => {
               break;
             case 'auth/invalid-email':
               setErrors("Invalid Email Address")
+              break;
+            case 'auth/email-already-exists':
+              setErrors("Email already exists")
+              break;
+            case 'auth/invalid-password':
+              setErrors('Password is invalid. Be sure it is at least 6 characters')
               break;
             default:
               setErrors('Failed to create an account')   
