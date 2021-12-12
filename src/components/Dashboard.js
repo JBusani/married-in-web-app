@@ -4,10 +4,12 @@ import FamilyCard from './FamilyCard';
 import styles from '../index.module.css';
 import { useAuth } from '../contexts/AuthContext'
 import { Link, useNavigate } from 'react-router-dom';
+import CreateCollection from './CreateCollection';
 
 const Dashboard = () => {
     const {currentUser, logout} = useAuth();
     let navigate = useNavigate();
+    const [ openCollection, setOpenCollection ] = useState(false);
     const [ errors, setErrors ] = useState("");
   //view families
   const [ view, setView ] = useState(0)
@@ -22,6 +24,9 @@ const Dashboard = () => {
             setErrors('Failed to log out');
         }
     }
+    function handleOpenCollection(){
+        setOpenCollection(true);
+    };
 
     return (
         <div className={styles.wrapper}>
@@ -33,9 +38,9 @@ const Dashboard = () => {
             <h3 style={{textAlign: "center"}}> Families </h3>
             <div className={styles.view}>
                 {Tree.map((f,index)=> (<button key={index} className={styles.viewButton} onClick={handleView} value={index}>{f.familyName} / {f.headOfHouse[0]}</button>))}
-                <button > + Create New </button>
+                <button className={styles.viewButton} style={{backgroundColor: "lightgreen"}} onClick={handleOpenCollection} > + Create New </button>
             </div>
-            <FamilyCard family={Tree[view]} />
+            {openCollection ? <CreateCollection /> : <FamilyCard family={Tree[view]} /> }
         </div>  
     )
 }
