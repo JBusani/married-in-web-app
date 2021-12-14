@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react"
-import { auth } from "../components/Firebase"
+import { auth, db } from "../components/Firebase"
 import { 
   createUserWithEmailAndPassword, 
   onAuthStateChanged,
@@ -12,6 +12,7 @@ import {
   updatePassword,
   updateProfile
 } from "firebase/auth";
+import {collection, addDoc } from "firebase/firestore";
 
 const AuthContext = React.createContext()
 
@@ -25,11 +26,13 @@ export function AuthProvider({ children }) {
 
   function createAccount(email, password){
     const user = createUserWithEmailAndPassword(auth, email, password);
+    
     return user;
   }
 
   function signin(email, password){
     const signedin = signInWithEmailAndPassword(auth, email, password)
+    
     return signedin;
   }
   function logout(){
@@ -64,6 +67,8 @@ export function AuthProvider({ children }) {
 
   //DB firestore
  
+  //add user to users collection
+  
 
 
   const value = {

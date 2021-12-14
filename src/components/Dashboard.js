@@ -9,7 +9,7 @@ import CreateCollection from './CreateCollection';
 const Dashboard = () => {
     const {currentUser, logout} = useAuth();
     let navigate = useNavigate();
-    const [ openCollection, setOpenCollection ] = useState(false);
+    const [ openCollection, setOpenCollection ] = useState(true);
     const [ errors, setErrors ] = useState("");
   //view families
   const [ view, setView ] = useState(0)
@@ -37,8 +37,8 @@ const Dashboard = () => {
             <Link to="/update-profile">Update Profile</Link>
             <h3 style={{textAlign: "center"}}> Families </h3>
             <div className={styles.view}>
-                {Tree.map((f,index)=> (<button key={index} className={styles.viewButton} onClick={handleView} value={index}>{f.familyName} / {f.headOfHouse[0]}</button>))}
-                <button className={styles.viewButton} style={{backgroundColor: "lightgreen"}} onClick={handleOpenCollection} > + Create New </button>
+                {Tree.map((f,index)=> (<button key={index} className={styles.viewButton} onClick={handleView} value={index}>{f.familyName}</button>))}
+                <button className={styles.viewButton} style={{backgroundColor: "lightgreen"}} onClick={handleOpenCollection} type="button" > + Create New </button>
             </div>
             {openCollection ? <CreateCollection /> : <FamilyCard family={Tree[view]} /> }
         </div>  

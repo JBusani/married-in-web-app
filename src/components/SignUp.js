@@ -3,10 +3,11 @@ import { useAuth } from "../contexts/AuthContext";
 import styles from "./form.module.css";
 import img from "../assets/signupbackground.jpg"
 import { Link, useNavigate } from "react-router-dom";
+import { sendEmailVerification } from "firebase/auth";
   
 const SignUp = () => {
   let navigate = useNavigate();
-  const { createAccount } = useAuth();
+  const { createAccount, currentUser } = useAuth();
     const [errors, setErrors] = useState("")
     const [ loading, setLoading ] = useState(false);
     const email = useRef('');
@@ -25,9 +26,16 @@ const SignUp = () => {
         try {
           setErrors('');
           setLoading(true);
-          await createAccount(e, p).then((value)=>{
+          await createAccount(e, p).then(async(creds)=>{
+            console.log(creds)
+            try{
+              await sendEmailVerification(creds.user)
+            }catch(error){
+              
+            }
+          }).then(()=>{
             setLoading(false)
-            navigate("/dashboard", {replace: true})
+            //navigate("/dashboard", {replace: true})
           })
         }catch(error){
           const message = error.code;
