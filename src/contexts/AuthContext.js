@@ -26,7 +26,6 @@ export function AuthProvider({ children }) {
 
   function createAccount(email, password){
     const user = createUserWithEmailAndPassword(auth, email, password);
-    
     return user;
   }
 
