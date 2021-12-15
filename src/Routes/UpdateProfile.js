@@ -3,6 +3,7 @@ import { useAuth } from "../contexts/AuthContext";
 import styles from "../components/form.module.css";
 import img from "../assets/signupbackground.jpg"
 import { Link, useNavigate } from "react-router-dom";
+import { deleteUser } from "firebase/auth";
   
 const ProfileSettings = () => {
   let navigate = useNavigate();
@@ -17,8 +18,6 @@ const ProfileSettings = () => {
     const email = useRef('');
     const password = useRef('');
     const passwordConfirm = useRef('');
-    console.group(currentUser)
-
     const update = (event) => {
       const e = email.current.value
       const p = password.current.value
@@ -43,6 +42,11 @@ const ProfileSettings = () => {
           console.log(error)
         })
       };
+    function deleteAccount(){
+      
+      deleteUser(currentUser);
+
+    }
 
   
     return (
@@ -82,6 +86,8 @@ const ProfileSettings = () => {
           <p><Link to="../dashboard">Cancel</Link></p>
         </form>
         <img src={img} alt="sign up" />
+
+        <button type="button" onClick={deleteAccount} style={{backgroundColor: "red", color: "white"}}>Delete Account</button>
         </div>
     )
   }

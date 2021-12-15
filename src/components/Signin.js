@@ -6,22 +6,20 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 
   
 const SignIn = () => {
+  const [cta, setCta] = useState(false)
   let location = useLocation();
   let navigate = useNavigate();
   const from = location.state?.from?.pathname || "/dashboard";
-
   const { signin } = useAuth();
-    const [errors, setErrors] = useState("")
-    const [ loading, setLoading ] = useState(false);
-    const email = useRef('');
-    const password = useRef('');
+  const [errors, setErrors] = useState("")
+  const [ loading, setLoading ] = useState(false);
+  const email = useRef('');
+  const password = useRef('');
 
-
-    const signinAccount = async (event) => {
+  const signinAccount = async (event) => {
       const e = email.current.value
       const p = password.current.value
         event.preventDefault();
-        
         try {
           setErrors('');
           setLoading(true);
@@ -31,6 +29,7 @@ const SignIn = () => {
           })
         }catch(error){
           const message = error.code;
+          console.log(message)
           setLoading(false);
           switch (message){
             case 'auth/email-already-in-use':
@@ -38,6 +37,10 @@ const SignIn = () => {
               break;
             case 'auth/invalid-email':
               setErrors("Invalid Email Address")
+              break;
+            case 'auth/user-not-found':
+              setCta(true);
+              setErrors(`User not found. Please sign up!`)
               break;
             default:
               setErrors("Failed to sign in")   
@@ -76,7 +79,7 @@ const SignIn = () => {
             className={styles.submitButton}
             > Log In</button>
         </form>
-        <p>Need an Account? <Link to="../signup">Sign Up</Link></p>
+        <p style={cta ? {backgroundColor: "yellow"} : {backgroundColor: "white"}}>Need an Account? <Link to="../signup">Sign Up</Link></p>
         <p>Forgot Password? <Link to="../forgot-password">Reset Password</Link></p>
         <img src={img} alt="sign in" />
       </div>

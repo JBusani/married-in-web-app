@@ -10,6 +10,8 @@ import ForgotPassword from './Routes/ForgotPassword';
 import Dashboard from './components/Dashboard';
 import UpdateProfile from './Routes/UpdateProfile';
 
+//maybe a uselocation can conditionally render a home page component
+
 const rootElement = document.getElementById('app')
 ReactDOM.render(
     <React.StrictMode>
@@ -18,7 +20,7 @@ ReactDOM.render(
                 <Routes>
                     <Route exact path="/" element={<App />} >
                         <Route path="dashboard" element={<PrivateRoute component={Dashboard}/>} />
-                        <Route path="/update-profile" element={<PrivateRoute component={UpdateProfile}  />} />
+                        <Route path="update-profile" element={<PrivateRoute component={UpdateProfile}  />} />
                         <Route path="signup" element={<SignUp />}/>
                         <Route path="signin" element={<SignIn />}/>
                         <Route path="forgot-password" element={<ForgotPassword />}/>                    
