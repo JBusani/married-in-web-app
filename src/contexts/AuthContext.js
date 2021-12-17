@@ -67,7 +67,16 @@ export function AuthProvider({ children }) {
   //DB firestore
  
   //add user to users collection
-  
+  function createUserDocument(userId){
+    try{
+      const docRef = addDoc(collection(db, "users"), {
+        userId: userId,
+      });
+      return docRef
+    }catch(e){
+      console.error("Error adding document: ", e);
+    }
+  }
 
 
   const value = {
@@ -79,7 +88,8 @@ export function AuthProvider({ children }) {
     updateUserEmail,
     updateUserPassword,
     updateUserProfile,
-    sendEmailVerification
+    sendEmailVerification,
+    createUserDocument
   }
 
   return (

@@ -1,18 +1,20 @@
 import React, { useRef } from 'react'
 import { collection, addDoc } from "firebase/firestore"; 
+import { db } from './Firebase';
 import formStyles from "./form.module.css";
 
 
 export default function CreateCollection(optionalInitialData){
     const familyName = useRef();
     async function handleSubmit(event){
-        event.preventDefault();
-        try {
+      event.preventDefault();
+        try{
             const docRef = await addDoc(collection(db, "users"), {
-              family: familyName,
+              family: familyName.current.value,
             });
+            return docRef
             console.log("Document written with ID: ", docRef.id);
-          } catch (e) {
+          }catch(e){
             console.error("Error adding document: ", e);
           }
     }
@@ -29,8 +31,9 @@ export default function CreateCollection(optionalInitialData){
                     ref={familyName}
                 />
                 <button
+                    type="submit"
                     className={formStyles.submitButton}
-                    onSubmit={handleSubmit}>
+                    onClick={handleSubmit}>
                   Save Family
                 </button>
                 </form>  

@@ -7,7 +7,7 @@ import { sendEmailVerification, deleteUser } from "firebase/auth";
   
 const SignUp = () => {
   let navigate = useNavigate();
-  const { createAccount } = useAuth();
+  const { createAccount, createUserDocument } = useAuth();
     const [errors, setErrors] = useState("")
     const [ loading, setLoading ] = useState(false);
     const email = useRef('');
@@ -26,7 +26,8 @@ const SignUp = () => {
         try {
           setErrors('');
           setLoading(true);
-          await createAccount(e, p).then(async(creds)=>{
+          await createAccount(e, p)
+          .then(async(creds)=>{
             console.log(creds)
             try{
               await sendEmailVerification(creds.user)
@@ -34,12 +35,14 @@ const SignUp = () => {
               deleteUser(creds.user)
               return error;
             }
-          }).then(()=>{
+          })
+          .then(async(creds)=>{
             setLoading(false)
-            //navigate("/dashboard", {replace: true})
+            navigate("/dashboard", {replace: true})
           })
         }catch(error){
           const message = error.code;
+          console.group(message)
           switch (message){
             case 'auth/email-already-in-use':
               setErrors("Email address already registered")

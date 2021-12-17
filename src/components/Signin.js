@@ -32,8 +32,8 @@ const SignIn = () => {
           console.log(message)
           setLoading(false);
           switch (message){
-            case 'auth/email-already-in-use':
-              setErrors("Email address already registered")
+            case 'auth/wrong-password':
+              setErrors("Incorrect Password")
               break;
             case 'auth/invalid-email':
               setErrors("Invalid Email Address")
@@ -41,6 +41,9 @@ const SignIn = () => {
             case 'auth/user-not-found':
               setCta(true);
               setErrors(`User not found. Please sign up!`)
+              break;
+            case 'auth/too-many-requests':
+              setErrors('Too many requests. Please try again later or reset password')
               break;
             default:
               setErrors("Failed to sign in")   
@@ -79,7 +82,7 @@ const SignIn = () => {
             className={styles.submitButton}
             > Log In</button>
         </form>
-        <p style={cta ? {backgroundColor: "yellow"} : {backgroundColor: "white"}}>Need an Account? <Link to="../signup">Sign Up</Link></p>
+        <p style={cta ? {backgroundColor: "rgb(74,85,131)", padding:"9px",borderRadius:"50px", color:"white"} : {backgroundColor: "inherit"}}>Need an Account? <Link to="../signup">Sign Up</Link></p>
         <p>Forgot Password? <Link to="../forgot-password">Reset Password</Link></p>
         <img src={img} alt="sign in" />
       </div>

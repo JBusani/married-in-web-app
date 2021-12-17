@@ -1,12 +1,25 @@
 .navContainer{
     display: flex;
+    position: sticky;
+    left: 0;
+    right: 0;
+    bottom: 0;
     justify-content: space-around;
     flex-wrap: wrap;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 30px;
     border-bottom: green 2px solid;
+    background-color: inherit;
 }
 .link{
     color: black;
     text-decoration: none;
+    font-weight: bold;
+}
+.logo{
+    text-align: center;
+}
+.logo img{
+    width: 100px;
+    border-radius: 10px;
 }

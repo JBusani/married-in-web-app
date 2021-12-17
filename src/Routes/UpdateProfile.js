@@ -85,9 +85,11 @@ const ProfileSettings = () => {
             > Update </button>
           <p><Link to="../dashboard">Cancel</Link></p>
         </form>
-        <img src={img} alt="sign up" />
-
-        <button type="button" onClick={deleteAccount} style={{backgroundColor: "red", color: "white"}}>Delete Account</button>
+        <button type="button" onClick={deleteAccount} style={{
+          backgroundColor: "red", 
+          color: "white", 
+          width: "100px",
+          }}>Delete Account</button>
         </div>
     )
   }

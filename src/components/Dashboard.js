@@ -27,10 +27,12 @@ const Dashboard = () => {
     function handleOpenCollection(){
         setOpenCollection(true);
     };
+    console.group(currentUser)
 
     return (
         <div className={styles.wrapper}>
-            <h2>Profile: {currentUser.email}</h2>
+            {currentUser.emailVerified ? <span></span> : <p>Please check inbox for verification or resend email<button type='button'>Resend</button></p>}
+            <h2>Profile: {currentUser.displayName || currentUser.email}</h2>
             {errors && <p>{errors}</p>}
             <strong> Email: </strong>{currentUser?.email}
             <button onClick={handleLogOut}>Sign Out</button>
