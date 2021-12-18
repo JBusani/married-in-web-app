@@ -67,10 +67,11 @@ export function AuthProvider({ children }) {
   //DB firestore
  
   //add user to users collection
-  function createUserDocument(userId){
+  function createUserDocument(userId, email){
     try{
       const docRef = addDoc(collection(db, "users"), {
         userId: userId,
+        email: email
       });
       return docRef
     }catch(e){

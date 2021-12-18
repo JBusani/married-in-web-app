@@ -2,11 +2,12 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const { webpack, DefinePlugin, } = require("webpack");
 const dotenv = require('dotenv');
 
+
 const htmlPlugin = new HtmlWebPackPlugin({
 title: "married in app",
  template: "./src/index.html",
  filename: "./index.html",
- favicon: "",
+ favicon: "./src/assets/logoCropped.jpg",
  meta: {viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no'}
 });
 

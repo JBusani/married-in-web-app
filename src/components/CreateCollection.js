@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { collection, addDoc } from "firebase/firestore"; 
+import { collection, addDoc, setDoc, doc } from "firebase/firestore"; 
 import { db } from './Firebase';
 import formStyles from "./form.module.css";
 
@@ -9,14 +9,12 @@ export default function CreateCollection(optionalInitialData){
     async function handleSubmit(event){
       event.preventDefault();
         try{
-            const docRef = await addDoc(collection(db, "users"), {
-              family: familyName.current.value,
-            });
-            return docRef
-            console.log("Document written with ID: ", docRef.id);
-          }catch(e){
-            console.error("Error adding document: ", e);
-          }
+          await setDoc(doc(db, "families"), {
+            familyName: familyName
+          })
+        }catch(error){
+          console.group(error)
+        }
     }
 
     return (

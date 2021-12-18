@@ -3,7 +3,7 @@ import { useAuth } from "../contexts/AuthContext";
 import styles from "../components/form.module.css";
 import img from "../assets/signupbackground.jpg"
 import { Link, useNavigate } from "react-router-dom";
-import { deleteUser } from "firebase/auth";
+import { deleteUser, reauthenticateWithCredential } from "firebase/auth";
   
 const ProfileSettings = () => {
   let navigate = useNavigate();
@@ -18,6 +18,7 @@ const ProfileSettings = () => {
     const email = useRef('');
     const password = useRef('');
     const passwordConfirm = useRef('');
+    
     const update = (event) => {
       const e = email.current.value
       const p = password.current.value
@@ -43,8 +44,19 @@ const ProfileSettings = () => {
         })
       };
     function deleteAccount(){
-      
-      deleteUser(currentUser);
+      try{
+        deleteUser(currentUser);
+      }catch(error){
+        const message = error.code;
+        console.group(error);
+        switch (message){
+          case 'auth/requires-recent-login':
+            navigate("/signin", {replace: true})
+            break;
+          default:
+            setErrors("Failed to delete account")
+        }
+      }
 
     }
 
@@ -85,7 +97,7 @@ const ProfileSettings = () => {
             > Update </button>
           <p><Link to="../dashboard">Cancel</Link></p>
         </form>
-        <button type="button" onClick={deleteAccount} style={{
+        <button type="submit" onClick={deleteAccount} style={{
           backgroundColor: "red", 
           color: "white", 
           width: "100px",

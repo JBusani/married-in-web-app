@@ -28,13 +28,8 @@ const SignUp = () => {
           setLoading(true);
           await createAccount(e, p)
           .then(async(creds)=>{
-            console.log(creds)
-            try{
-              await sendEmailVerification(creds.user)
-            }catch(error){
-              deleteUser(creds.user)
-              return error;
-            }
+            await sendEmailVerification(creds.user)
+            await createUserDocument(creds.user.uid, creds.user.email)
           })
           .then(async(creds)=>{
             setLoading(false)
