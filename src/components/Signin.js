@@ -29,7 +29,6 @@ const SignIn = () => {
           })
         }catch(error){
           const message = error.code;
-          console.log(message)
           setLoading(false);
           switch (message){
             case 'auth/wrong-password':

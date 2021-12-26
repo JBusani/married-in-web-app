@@ -12,7 +12,7 @@ import {
   updatePassword,
   updateProfile
 } from "firebase/auth";
-import {collection, addDoc } from "firebase/firestore";
+import {collection, addDoc, setDoc, doc} from "firebase/firestore";
 
 const AuthContext = React.createContext()
 
@@ -69,11 +69,9 @@ export function AuthProvider({ children }) {
   //add user to users collection
   function createUserDocument(userId, email){
     try{
-      const docRef = addDoc(collection(db, "users"), {
-        userId: userId,
-        email: email
-      });
-      return docRef
+      setDoc(doc(db, "users/" + userId), {
+        email: email,
+      })
     }catch(e){
       console.error("Error adding document: ", e);
     }

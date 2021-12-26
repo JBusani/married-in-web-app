@@ -43,9 +43,9 @@ const ProfileSettings = () => {
           console.log(error)
         })
       };
-    function deleteAccount(){
+    async function deleteAccount(){
       try{
-        deleteUser(currentUser);
+        await deleteUser(currentUser);
       }catch(error){
         const message = error.code;
         console.group(error);

@@ -5,10 +5,10 @@ import { useAuth } from '../contexts/AuthContext';
 import Dashboard from '../components/Dashboard';
 
 export default function PrivateRoute(props){
-    const Comp = props.component
+    const Component = props.component
     const { currentUser } = useAuth();
     let location = useLocation();
-    let component = currentUser?.email ? <Comp /> : <Navigate to="/signin" state={{from: location}} />
+    let component = currentUser?.email ? <Component /> : <Navigate to="/signin" state={{from: location}} />
     return (
             <>
                 {component}

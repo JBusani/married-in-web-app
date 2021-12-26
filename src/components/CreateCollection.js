@@ -4,19 +4,20 @@ import { db } from './Firebase';
 import formStyles from "./form.module.css";
 
 
-export default function CreateCollection(optionalInitialData){
+export default function CreateCollection(props){
     const familyName = useRef();
     async function handleSubmit(event){
       event.preventDefault();
         try{
-          await setDoc(doc(db, "families"), {
-            familyName: familyName
+          const docRef = await addDoc(collection(db, `users/${props.user}/families`), {
+            family: familyName.current.value
+            
           })
         }catch(error){
           console.group(error)
         }
     }
-
+console.group(props.user)
     return (
         <div className={formStyles.formContainer}>
                <form className={formStyles.form}>

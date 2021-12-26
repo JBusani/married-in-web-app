@@ -5,6 +5,7 @@ import styles from '../index.module.css';
 import { useAuth } from '../contexts/AuthContext'
 import { Link, useNavigate } from 'react-router-dom';
 import CreateCollection from './CreateCollection';
+import { sendEmailVerification } from 'firebase/auth';
 
 const Dashboard = () => {
     const {currentUser, logout} = useAuth();
@@ -27,11 +28,14 @@ const Dashboard = () => {
     function handleOpenCollection(){
         setOpenCollection(true);
     };
+    function resendVerificationEmail(){
+        sendEmailVerification(currentUser);
+    }
     console.group(currentUser)
 
     return (
         <div className={styles.wrapper}>
-            {currentUser.emailVerified ? <span></span> : <p>Please check inbox for verification or resend email<button type='button'>Resend</button></p>}
+            {currentUser.emailVerified ? <span></span> : <p>Please check inbox for verification or resend email<button type='button' onClick={resendVerificationEmail}>Resend</button></p>}
             <h2>Profile: {currentUser.displayName || currentUser.email}</h2>
             {errors && <p>{errors}</p>}
             <strong> Email: </strong>{currentUser?.email}
@@ -41,8 +45,8 @@ const Dashboard = () => {
             <div className={styles.view}>
                 {Tree.map((f,index)=> (<button key={index} className={styles.viewButton} onClick={handleView} value={index}>{f.familyName}</button>))}
                 <button className={styles.viewButton} style={{backgroundColor: "lightgreen"}} onClick={handleOpenCollection} type="button" > + Create New </button>
-            </div>
-            {openCollection ? <CreateCollection /> : <FamilyCard family={Tree[view]} /> }
+            </div> 
+            {openCollection ? <CreateCollection user={currentUser.uid} /> : <FamilyCard family={Tree[view]} /> }
         </div>  
     )
 }
