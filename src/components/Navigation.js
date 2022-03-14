@@ -15,4 +15,17 @@ const Navigation = () => {
         
     )
 }
+export const NavigationFooter = () =>{
+    return (
+        <>
+        <div>
+            Site Map:
+            <ul>
+                <li><Link className={styles.link} to="/">Married In</Link></li>
+                <li><Link className={styles.link} to="dashboard">Dashboard</Link></li>
+            </ul>
+        </div>
+        </>
+    )
+}
 export default Navigation;

@@ -1,4 +1,7 @@
 import React from 'react';
+import Navigation, {NavigationFooter} from './Navigation';
+import logo from "../assets/logoCropped.jpg";
+import styles from '../components/navigation.module.css';
 
 
 
@@ -12,8 +15,13 @@ const Layout = (props) => {
 
     return (
         <div>
-            <h1>Married In</h1>
+            <div className={styles.logo}>
+                <img src={logo} alt="Married In Logo" />
+            </div>
+            <Navigation />
             {props.children}
+            <NavigationFooter />
+            <p style={{textAlign: "center", fontSize: ".7rem"}}>Married In &copy; {new Date().getFullYear()}</p>
         </div>
     )
 }
