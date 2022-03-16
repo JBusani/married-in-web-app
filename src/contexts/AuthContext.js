@@ -71,6 +71,9 @@ export function AuthProvider({ children }) {
     try{
       setDoc(doc(db, "users/" + userId), {
         email: email,
+        userId: userId,
+        families: [],
+        members: [],
       })
     }catch(e){
       console.error("Error adding document: ", e);

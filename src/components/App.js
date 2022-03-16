@@ -7,6 +7,7 @@ import ForgotPassword from '../Routes/ForgotPassword';
 import Dashboard from '../Routes/Dashboard';
 import UpdateProfile from '../Routes/UpdateProfile';
 import { Routes, Route } from 'react-router-dom';
+import Layout from "./Layout";
 
 /*<div className={styles.logo}>
         <img src={logo} alt="Married In Logo" />
@@ -21,15 +22,17 @@ export default function App() {
     <div>
 
       <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route path="dashboard" element={<PrivateRoute component={Dashboard}/>}>
-            <Route path="update-profile" element={<PrivateRoute component={UpdateProfile}  />} />
-            <Route path="*" element={<main style={{padding: "1rem"}}><p>There's nothing here...!</p></main>}/>
+        <Route exact path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="dashboard" element={<PrivateRoute component={Dashboard}/>}>
+              <Route path="update-profile" element={<PrivateRoute component={UpdateProfile}  />} />
+              <Route path="*" element={<main style={{padding: "1rem"}}><p>There's nothing here...!</p></main>}/>
+          </Route>
+          <Route path="signup" element={<SignUp />}/>
+          <Route path="signin" element={<SignIn />}/>
+          <Route path="forgot-password" element={<ForgotPassword />}/>   
+          <Route path="*" element={<main style={{padding: "1rem"}}><p>There's nothing here...!</p></main>}/>                 
         </Route>
-        <Route path="signup" element={<SignUp />}/>
-        <Route path="signin" element={<SignIn />}/>
-        <Route path="forgot-password" element={<ForgotPassword />}/>   
-        <Route path="*" element={<main style={{padding: "1rem"}}><p>There's nothing here...!</p></main>}/>                 
       </Routes>
     </div>
   );

@@ -4,7 +4,7 @@ import FamilyCard from '../components/FamilyCard';
 import styles from '../index.module.css';
 import { useAuth } from '../contexts/AuthContext'
 import { Link, useNavigate } from 'react-router-dom';
-import CreateCollection from '../components/CreateCollection';
+import CreateCollection from '../components/CreateNewFamily';
 import { sendEmailVerification } from 'firebase/auth';
 import Layout from '../components/Layout';
 
@@ -35,7 +35,6 @@ const Dashboard = () => {
     console.group(currentUser)
 
     return (
-        <Layout>
             <div className={styles.wrapper}>
                 {currentUser.emailVerified ? <span></span> : <p>Please check inbox for verification or resend email<button type='button' onClick={resendVerificationEmail}>Resend</button></p>}
                 <h2>Profile: {currentUser.displayName || currentUser.email}</h2>
@@ -50,7 +49,6 @@ const Dashboard = () => {
                 </div> 
                 {openCollection ? <CreateCollection user={currentUser.uid} /> : <FamilyCard family={Tree[view]} /> }
             </div>
-        </Layout>
     )
 }
 
