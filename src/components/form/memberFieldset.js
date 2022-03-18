@@ -17,6 +17,19 @@ const MemberFieldSet = ({memberNumber}) => {
                     required={true}
                   />
                   <div>
+                      <label>Existing: 
+                        <input
+                              type="checkbox"
+                              id={`existsCheckbox`}
+                              name="exists"
+                              value={undefined}
+                              checked={false}
+                              disabled={true}
+                              required={true}
+                            />
+                      </label>
+                    </div>
+                  <div>
                     <label>Parent:
                       <input
                         type="radio"
@@ -57,6 +70,19 @@ const ExistingMemberFieldSet = ({memberNumber, value}) => {
                       disabled={true}
                       value={value.firstName}
                     />
+                    <div>
+                      <label>Existing: 
+                        <input
+                              type="checkbox"
+                              id="existsCheckbox"
+                              name="exists"
+                              value={value.id}
+                              checked={true}
+                              disabled={true}
+                              required={true}
+                            />
+                      </label>
+                    </div>
                     <div>
                       <label>Parent:
                         <input

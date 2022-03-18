@@ -59,6 +59,7 @@ export default function CreateNewFamily(props){
       try{
       const formDataFormated = () => {
         const familyMembers = formData.querySelectorAll("fieldset")
+        console.group("Let's take a look at the fieldsets", familyMembers);
         let familyMembersArray = [];
         const membersCount = fieldMemberArray.length;
         
@@ -71,6 +72,8 @@ export default function CreateNewFamily(props){
             firstName: "",
             parentRole: false,
             childRole: false,
+            existing: false,
+            id: "",
           }
           inputFields.forEach(input => {
             switch(input.id){
@@ -82,6 +85,11 @@ export default function CreateNewFamily(props){
                 break;
               case "childRole":
                 familyMember.childRole = input.checked;
+                break;
+              case "existsCheckbox":
+                familyMember.existing = input.checked;
+                familyMember.id = input.value;
+                break;
             }
           });
           familyMembersArray.push(familyMember);
