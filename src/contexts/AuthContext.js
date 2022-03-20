@@ -7,12 +7,11 @@ import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   sendEmailVerification,
-  reauthenticateWithCredential,
   updateEmail,
   updatePassword,
   updateProfile
 } from "firebase/auth";
-import {collection, addDoc, setDoc, doc} from "firebase/firestore";
+import { setDoc, doc} from "firebase/firestore";
 
 const AuthContext = React.createContext()
 
@@ -69,7 +68,7 @@ export function AuthProvider({ children }) {
   //add user to users collection
   function createUserDocument(userId, email){
     try{
-      setDoc(doc(db, "users/" + userId), {
+      setDoc(doc(db, "users/" + email), {
         email: email,
         userId: userId,
         families: [],

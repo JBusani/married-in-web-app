@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { collection, query, where , getDocs, addDoc, setDoc, doc, documentId } from "firebase/firestore"; 
+import { collection, query, where , getDocs, addDoc, writeBatch ,setDoc, doc, documentId, updateDoc, arrayUnion, deleteDoc } from "firebase/firestore"; 
 import { db } from './Firebase';
 import formStyles from "./form.module.css";
 import {MemberFieldSet, ExistingMemberFieldSet} from './form/memberFieldset';
-
+import memberClass from './helperFunctions/member';
 
 export default function CreateNewFamily(props){
     const familyName = useRef();
@@ -28,6 +28,8 @@ export default function CreateNewFamily(props){
     }
 
     useEffect(async ()=>{
+      
+      //Query for All User's Members once in members collection and push to a local array for reducing database calls
       const querySnapshot = await getDocs(collection(db, `users/${props.user}/members`));
       const dbMembers = [];
       querySnapshot.forEach((doc) => {
@@ -40,23 +42,24 @@ export default function CreateNewFamily(props){
           });
       });
       setMemberCollection(dbMembers)
-
-      async function queryByFamiliesArray(){
-        const f = query(collection(db, `users/${props.user}/members`),where("families", "array-contains", "Bersani"));
-        const fSnap = await getDocs(f);
-        fSnap.forEach((doc)=>{
-          console.log(doc.data())
-        })
-      }
-      queryByFamiliesArray();
-
+      console.group("Loaded user members from firestore and set to memberCollection", memberCollection);
     },[])
+
     async function handleSubmit(event){  
       event.preventDefault();
       const formData = event.target;
+      const family = familyName.current.value;
       console.group("running submit function", formData)
       
       try{
+      
+      // 1. loop: format each fieldset data into an easy to read family member object and save in an array
+      // 2. return: familyMemberArray
+      // 3. create a new family in Families collection in firestore
+      // 4. add members to the family field "currentMembers"
+      // 5. create members in the members collection in firestore
+      // 6. return the success message or component
+
       const formDataFormated = () => {
         const familyMembers = formData.querySelectorAll("fieldset")
         console.group("Let's take a look at the fieldsets", familyMembers);
@@ -74,6 +77,7 @@ export default function CreateNewFamily(props){
             childRole: false,
             existing: false,
             id: "",
+            familyName: family
           }
           inputFields.forEach(input => {
             switch(input.id){
@@ -97,10 +101,40 @@ export default function CreateNewFamily(props){
         }//for loop finished
         return familyMembersArray
       }
-      formDataFormated();
-      console.group("finished running formDataFormated function", formDataFormated());
+      
+      const batch = writeBatch(db);
+      console.group("finished running formDataFormated function", formDataFormated(), "Now creating family ref...");
+      const formFamilyRef = doc(collection(db, `users/${props.user}/families`))
+      batch.set(formFamilyRef, {
+        family: family,
+        members: []
+      })
+      
+
+      formDataFormated().forEach(member => {
+        if(member.existing){
+          const existingMember = doc(db, `users/${props.user}/members/${member.id}`);
+          console.group('existing member is:', existingMember)
+          //add family id to the member
+          batch.update(existingMember,{families: arrayUnion(formFamilyRef.id)});
+          //add member id to the family ref
+          batch.update(formFamilyRef, {members: arrayUnion(existingMember.id)});
+        }else{
+          const newMemberRef = doc(collection(db, `users/${props.user}/members`));
+          console.group("creating new member");
+          //set member with member class object
+          batch.set(newMemberRef, memberClass(member))
+          //add family id to member
+          batch.update(newMemberRef, {families: arrayUnion(formFamilyRef.id)})
+          //add member id to family
+          batch.update(formFamilyRef, {members: arrayUnion(newMemberRef.id)})
+        }          
+        });
+      
+      await batch.commit();
     }catch(error){
       console.group(error);
+      
     }
         /*try{
           //to create or overwrite a single document use set()
@@ -121,7 +155,8 @@ export default function CreateNewFamily(props){
           const familyRef = await addDoc(collection(db, `users/${props.user}/families`), {
             family: familyName.current.value,
             members: [{
-
+              firstName:
+              id: ""
             }]
           })
           console.log(familyRef)
@@ -139,6 +174,7 @@ export default function CreateNewFamily(props){
       setFilteredCollection(filterResult)
       return filterResult;
     }
+ 
     return (
         <div className={formStyles.formContainer}>
                <form className={formStyles.form} name="FamilyForm" onSubmit={handleSubmit}>
