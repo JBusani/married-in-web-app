@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { collection, query, where , getDocs, addDoc, writeBatch ,setDoc, doc, documentId, updateDoc, arrayUnion, deleteDoc } from "firebase/firestore"; 
+import { collection, getDocs, writeBatch , doc, arrayUnion } from "firebase/firestore"; 
 import { db } from './Firebase';
 import formStyles from "./form.module.css";
 import {MemberFieldSet, ExistingMemberFieldSet} from './form/memberFieldset';
@@ -52,15 +52,7 @@ export default function CreateNewFamily(props){
       console.group("running submit function", formData)
       
       try{
-      
-      // 1. loop: format each fieldset data into an easy to read family member object and save in an array
-      // 2. return: familyMemberArray
-      // 3. create a new family in Families collection in firestore
-      // 4. add members to the family field "currentMembers"
-      // 5. create members in the members collection in firestore
-      // 6. return the success message or component
-
-      const formDataFormated = () => {
+        const formDataFormated = () => {
         const familyMembers = formData.querySelectorAll("fieldset")
         console.group("Let's take a look at the fieldsets", familyMembers);
         let familyMembersArray = [];
@@ -68,7 +60,7 @@ export default function CreateNewFamily(props){
         
         //return all fieldsets from form into familyMemberArray
         //each as an family member object
-        for(let i = 0; i < membersCount; i++){
+        createFamilyMembers: for(let i = 0; i < membersCount; i++){
           const fields = familyMembers[i];
           const inputFields = fields.querySelectorAll("input")
           let familyMember = {
@@ -118,7 +110,12 @@ export default function CreateNewFamily(props){
           //add family id to the member
           batch.update(existingMember,{families: arrayUnion(formFamilyRef.id)});
           //add member id to the family ref
-          batch.update(formFamilyRef, {members: arrayUnion(existingMember.id)});
+          batch.update(formFamilyRef, {members: arrayUnion(
+            {
+              id: existingMember.id,
+              headOfHousehold: member.parentRole,
+            }
+            )});
         }else{
           const newMemberRef = doc(collection(db, `users/${props.user}/members`));
           console.group("creating new member");
@@ -127,45 +124,21 @@ export default function CreateNewFamily(props){
           //add family id to member
           batch.update(newMemberRef, {families: arrayUnion(formFamilyRef.id)})
           //add member id to family
-          batch.update(formFamilyRef, {members: arrayUnion(newMemberRef.id)})
+          batch.update(formFamilyRef, {members: arrayUnion(
+            {
+              id: newMemberRef.id,
+              headOfHousehold: member.parentRole,
+            }
+            )})
         }          
         });
       
       await batch.commit();
+      props.handleCloseCollection();
     }catch(error){
       console.group(error);
       
     }
-        /*try{
-          //to create or overwrite a single document use set()
-          //if not exist, it'll be created
-          //if exist it will be overwritten with the newly provided data unless you specify it should be merged.
-
-          //in the families collection, add a family with this data object
-          const membersRef = await addDoc(collection(db, `users/${props.user}/members`),{
-            familyName: familyName.current.value,
-            firstName: "",
-            families: [
-              familyName.current.value
-            ],
-          })
-          console.log(membersRef)
-
-          //in the families collection, add a family with this data object
-          const familyRef = await addDoc(collection(db, `users/${props.user}/families`), {
-            family: familyName.current.value,
-            members: [{
-              firstName:
-              id: ""
-            }]
-          })
-          console.log(familyRef)
-
-          
-        }catch(error){
-          console.group(error)
-        }*/
-
     }
     
     function checkForMember(event){

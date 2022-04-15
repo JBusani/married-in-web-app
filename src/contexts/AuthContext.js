@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react"
-import { auth, db } from "../components/Firebase"
+import { auth, db, } from "../components/Firebase"
 import { 
   createUserWithEmailAndPassword, 
   onAuthStateChanged,
@@ -9,9 +9,10 @@ import {
   sendEmailVerification,
   updateEmail,
   updatePassword,
-  updateProfile
+  updateProfile,
+  
 } from "firebase/auth";
-import { setDoc, doc} from "firebase/firestore";
+import { setDoc, doc, getDocs, collection, onSnapshot} from "firebase/firestore";
 
 const AuthContext = React.createContext()
 
@@ -64,7 +65,27 @@ export function AuthProvider({ children }) {
   }, [])
 
   //DB firestore
- 
+
+  //Read Data for display
+  const [dashboardFamilyArray, setDashboardFamilyArray] = useState();
+  useEffect(()=>{  
+    if(currentUser){
+    async function readData(){
+    let families = [];
+    const querySnapshot = await getDocs(collection(db, `users/${currentUser.uid}/families`));
+    console.group("This is the context useEffect for reading data: ", currentUser.uid)
+
+    querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+        families.push(doc.data());
+      });
+      setDashboardFamilyArray(families);
+    }
+    readData();
+  }
+}, [currentUser]);
+  console.group("dashboard Array : ", dashboardFamilyArray)
   //add user to users collection
   function createUserDocument(userId, email){
     try{
@@ -90,7 +111,7 @@ export function AuthProvider({ children }) {
     updateUserPassword,
     updateUserProfile,
     sendEmailVerification,
-    createUserDocument
+    createUserDocument,
   }
 
   return (
