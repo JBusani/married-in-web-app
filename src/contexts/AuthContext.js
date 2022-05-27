@@ -56,36 +56,19 @@ export function AuthProvider({ children }) {
       photoURL})
     return profileUpdated;
   }
+
   useEffect(()=>{
+    console.group('starting useEffect in Context')
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user)
       setLoading(false);
     })
+    console.group('ending useEffect in Context')
     return unsubscribe
   }, [])
 
   //DB firestore
 
-  //Read Data for display
-  const [dashboardFamilyArray, setDashboardFamilyArray] = useState();
-  useEffect(()=>{  
-    if(currentUser){
-    async function readData(){
-    let families = [];
-    const querySnapshot = await getDocs(collection(db, `users/${currentUser.uid}/families`));
-    console.group("This is the context useEffect for reading data: ", currentUser.uid)
-
-    querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
-        families.push(doc.data());
-      });
-      setDashboardFamilyArray(families);
-    }
-    readData();
-  }
-}, [currentUser]);
-  console.group("dashboard Array : ", dashboardFamilyArray)
   //add user to users collection
   function createUserDocument(userId, email){
     try{
@@ -112,6 +95,10 @@ export function AuthProvider({ children }) {
     updateUserProfile,
     sendEmailVerification,
     createUserDocument,
+    getDocs,
+    collection,
+    onSnapshot,
+    db,
   }
 
   return (

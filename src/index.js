@@ -1,13 +1,13 @@
 import App from './components/App';
-import ReactDOM from 'react-dom';
+import {createRoot} from 'react-dom/client';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 
-//maybe a uselocation can conditionally render a home page component
-
-const rootElement = document.getElementById('app')
-ReactDOM.render(
+//react 18
+const container = document.getElementById('app');
+const root = createRoot(container);
+root.render( 
     <React.StrictMode>
         <BrowserRouter>
             <AuthProvider>
@@ -15,4 +15,4 @@ ReactDOM.render(
             </AuthProvider>
         </BrowserRouter> 
     </React.StrictMode>
-    , rootElement);
+    );

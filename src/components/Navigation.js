@@ -5,11 +5,12 @@ import { useAuth } from "../contexts/AuthContext";
 import logo from "../assets/logoCropped.jpg"
 
 const Navigation = () => {
+    const { currentUser } = useAuth();
+
     return (
         <>
         <nav className={styles.navContainer}>
-            <Link className={styles.link} to="/">Married In</Link>            
-            <Link className={styles.link} to="dashboard">Dashboard</Link>
+            {currentUser ? "Dashboard" : "Married In" }
         </nav>
         </>
         

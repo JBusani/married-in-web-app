@@ -27,9 +27,10 @@ export default function CreateNewFamily(props){
       setOpenSearchExisting(true);
     }
 
-    useEffect(async ()=>{
+    useEffect(()=>{
       
       //Query for All User's Members once in members collection and push to a local array for reducing database calls
+      async function query(){
       const querySnapshot = await getDocs(collection(db, `users/${props.user}/members`));
       const dbMembers = [];
       querySnapshot.forEach((doc) => {
@@ -40,9 +41,10 @@ export default function CreateNewFamily(props){
             familyName: doc.data().familyName,
             families: doc.data().families
           });
-      });
-      setMemberCollection(dbMembers)
-      console.group("Loaded user members from firestore and set to memberCollection", memberCollection);
+      })
+      setMemberCollection(dbMembers);
+    };
+      query();
     },[])
 
     async function handleSubmit(event){  
@@ -217,6 +219,7 @@ export default function CreateNewFamily(props){
                   Save Family
                 </button>
                 </form>  
+                <button onClick={props.handleCloseCollection}>Cancel</button>
             </div>
     );
 } 

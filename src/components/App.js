@@ -9,13 +9,7 @@ import UpdateProfile from '../Routes/UpdateProfile';
 import { Routes, Route } from 'react-router-dom';
 import Layout from "./Layout";
 
-/*<div className={styles.logo}>
-        <img src={logo} alt="Married In Logo" />
-      </div>
-      <Outlet />
-      <Navigation />
-      <p style={{textAlign: "center", fontSize: ".7rem"}}>Married In &copy; {new Date().getFullYear()}</p>
-  */
+
 export default function App() {
  
   return (
