@@ -28,13 +28,19 @@ devServer: {
 },
   mode: 'development',
   module: {
-    rules: [{
-   test: /\.js$/,
-   exclude: /node_modules/,
-   use: {
-     loader: "babel-loader",
-   }
- },
+    rules: [
+      {
+        test:/\.graphql?$/, 
+        loader: 'webpack-graphql-loader',
+        minify: true
+      },
+      { 
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+        }
+      },
   {
    test: /\.css$/,
    use: [
