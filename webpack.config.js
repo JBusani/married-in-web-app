@@ -32,7 +32,6 @@ devServer: {
       {
         test:/\.graphql?$/, 
         loader: 'webpack-graphql-loader',
-        minify: true
       },
       { 
         test: /\.js$/,

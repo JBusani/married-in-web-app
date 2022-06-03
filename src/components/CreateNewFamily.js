@@ -118,7 +118,7 @@ export default function CreateNewFamily(props){
               headOfHousehold: member.parentRole,
             }
             )});
-        }else{
+        }else{ 
           const newMemberRef = doc(collection(db, `users/${props.user}/members`));
           console.group("creating new member");
           //set member with member class object

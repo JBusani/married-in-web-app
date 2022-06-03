@@ -59,3 +59,6 @@ typings/
 .env
 
 dist/
+
+#firestore credentials
+server/serviceAccountKey.json

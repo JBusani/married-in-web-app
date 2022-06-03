@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": " webpack serve --config webpack.config.js",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "serve": "node server/app.js"
   },
   "keywords": [],
   "author": "Jake Bersani",
