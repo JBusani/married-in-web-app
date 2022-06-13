@@ -10,7 +10,12 @@ const Navigation = () => {
     return (
         <>
         <nav className={styles.navContainer}>
-            {currentUser ? "Dashboard" : "Married In" }
+            {currentUser ? "Dashboard" : (
+            <ul>
+                <li><Link className={styles.link} to="/">Married In</Link></li>
+                <li><Link className={styles.link} to="/signin">Sign In</Link></li>
+                <li><Link className={styles.link} to="/signup">Sign Up</Link></li>
+            </ul>) }
         </nav>
         </>
         

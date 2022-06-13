@@ -17,31 +17,10 @@ const Dashboard = () => {
 
     useEffect(()=>{  
         if(currentUser){
-        async function getFirestoreDataFromGraphQlServer(){
-            const response = await fetch("http://localhost:4000/graphql", {
-        method: 'post',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-        },
-        body: JSON.stringify({
-        query: `
-            query{
-                    members{
-                        id
-                    }
-                }
-        `
-        })
-    });
-            const json = await response.json();
-            const data = await json;
-            console.log('data returned: ', data);
-        }
         async function readData(){
         let families = [];
         const querySnapshot = await getDocs(collection(db, `users/${currentUser.uid}/families`));
-        console.group("This is the context useEffect for reading data: ", currentUser.uid)
+        console.group("Dashboard useEffect read firestore data: ", currentUser.uid)
     
         querySnapshot.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
@@ -50,8 +29,7 @@ const Dashboard = () => {
           });
           setDashboardFamilyArray(families);
         }
-        getFirestoreDataFromGraphQlServer()
-        
+        //readData();      
       }
     },[]);
 

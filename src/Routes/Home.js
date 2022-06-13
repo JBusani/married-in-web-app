@@ -13,7 +13,7 @@ const Home = () => {
                     <h2>You got married! Great!</h2>
                     <h3>But whose nose are you smooshing with right now?</h3>
                     <h3>Never forget the names of your extended family again! <b>Married In to the rescue.</b></h3>
-            
+                    
                 </div>
             </div>
         </main>

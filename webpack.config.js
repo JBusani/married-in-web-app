@@ -29,10 +29,6 @@ devServer: {
   mode: 'development',
   module: {
     rules: [
-      {
-        test:/\.graphql?$/, 
-        loader: 'webpack-graphql-loader',
-      },
       { 
         test: /\.js$/,
         exclude: /node_modules/,

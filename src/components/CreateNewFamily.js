@@ -4,6 +4,7 @@ import { db } from './Firebase';
 import formStyles from "./form.module.css";
 import {MemberFieldSet, ExistingMemberFieldSet} from './form/memberFieldset';
 import memberClass from './helperFunctions/member';
+import createPersonByFormData from './helperFunctions/createPersonByFormData';
 
 export default function CreateNewFamily(props){
     const familyName = useRef();
@@ -51,46 +52,30 @@ export default function CreateNewFamily(props){
       event.preventDefault();
       const formData = event.target;
       const family = familyName.current.value;
+      console.group(family, "family name")
       console.group("running submit function", formData)
       
       try{
         const formDataFormated = () => {
+          //fieldsets organize inputs into individual groups a.k.a. an individual person
+          //we query the groups. this gives us a group of people in a family.
         const familyMembers = formData.querySelectorAll("fieldset")
-        console.group("Let's take a look at the fieldsets", familyMembers);
+
+        console.group("fieldsets: ", familyMembers);
+        
+        //put those family members into an iterable array
         let familyMembersArray = [];
         const membersCount = fieldMemberArray.length;
         
-        //return all fieldsets from form into familyMemberArray
-        //each as an family member object
+        //for each person. extract the input values. insert values into person template object (see below)
         createFamilyMembers: for(let i = 0; i < membersCount; i++){
           const fields = familyMembers[i];
+
+          //get all "details" about a person (name, etc.)
           const inputFields = fields.querySelectorAll("input")
-          let familyMember = {
-            firstName: "",
-            parentRole: false,
-            childRole: false,
-            existing: false,
-            id: "",
-            familyName: family
-          }
-          inputFields.forEach(input => {
-            switch(input.id){
-              case "firstName":
-                familyMember.firstName = input.value;
-                break;
-              case "parentRole":
-                familyMember.parentRole = input.checked;
-                break;
-              case "childRole":
-                familyMember.childRole = input.checked;
-                break;
-              case "existsCheckbox":
-                familyMember.existing = input.checked;
-                familyMember.id = input.value;
-                break;
-            }
-          });
-          familyMembersArray.push(familyMember);
+          const familyMemberFormatedIntoObject = createPersonByFormData(inputFields);
+          
+          familyMembersArray.push(familyMemberFormatedIntoObject, family);
           console.group("for loop finished. family members array complete");
         }//for loop finished
         return familyMembersArray
