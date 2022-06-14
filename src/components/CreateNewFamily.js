@@ -3,7 +3,6 @@ import { collection, getDocs, writeBatch , doc, arrayUnion } from "firebase/fire
 import { db } from './Firebase';
 import formStyles from "./form.module.css";
 import {MemberFieldSet, ExistingMemberFieldSet} from './form/memberFieldset';
-import memberClass from './helperFunctions/member';
 import createPersonByFormData from './helperFunctions/createPersonByFormData';
 
 export default function CreateNewFamily(props){
@@ -11,7 +10,7 @@ export default function CreateNewFamily(props){
     //memberCollection is an array of objects
     const [ memberCollection, setMemberCollection ] = useState([]);
     const [ filteredCollection, setFilteredCollection ] = useState([]);
-    const [ fieldMemberArray, setFieldMemberArray ] = useState([<MemberFieldSet key={1} memberNumber={1} />]);
+    const [ fieldMemberArray, setFieldMemberArray ] = useState([]);
     const [ existingMember, setExistingMember ] = useState(null)
     const [ openSearchExisting, setOpenSearchExisting ] = useState(false)
     const [ disableButton, setDisableButton ] = useState(false)
@@ -20,8 +19,17 @@ export default function CreateNewFamily(props){
       //create a new fieldset array
         setFieldMemberArray(prevState => ([
           ...prevState,
-          <MemberFieldSet key={fieldMemberArray.length + 1} memberNumber={fieldMemberArray.length + 1} />
+          <MemberFieldSet memberNumber={fieldMemberArray.length + 1} />
         ]))
+    }
+    function removeMemberField(event){
+      const index = fieldMemberArray
+      console.log(index)
+      console.log(event.target.value)
+      setFieldMemberArray(prevState=>{
+        const newState = prevState.splice(event.target.value, 1);
+       return newState
+      })
     }
     function handleAddExistingMember(){
       setDisableButton(true);
@@ -73,10 +81,9 @@ export default function CreateNewFamily(props){
 
           //get all "details" about a person (name, etc.)
           const inputFields = fields.querySelectorAll("input")
-          const familyMemberFormatedIntoObject = createPersonByFormData(inputFields);
+          const familyMemberFormatedIntoObject = createPersonByFormData(inputFields, family);
           
-          familyMembersArray.push(familyMemberFormatedIntoObject, family);
-          console.group("for loop finished. family members array complete");
+          familyMembersArray.push(familyMemberFormatedIntoObject);
         }//for loop finished
         return familyMembersArray
       }
@@ -107,16 +114,22 @@ export default function CreateNewFamily(props){
           const newMemberRef = doc(collection(db, `users/${props.user}/members`));
           console.group("creating new member");
           //set member with member class object
-          batch.set(newMemberRef, memberClass(member))
+          batch.set(newMemberRef, {
+              firstName: member.firstName,
+              id: newMemberRef.id,
+              familyName: member.familyName,
+              families: arrayUnion(formFamilyRef.id),
+          });
           //add family id to member
-          batch.update(newMemberRef, {families: arrayUnion(formFamilyRef.id)})
+          //batch.update(newMemberRef, {families: arrayUnion(formFamilyRef.id), id: newMemberRef.id})
           //add member id to family
           batch.update(formFamilyRef, {members: arrayUnion(
             {
               id: newMemberRef.id,
               headOfHousehold: member.parentRole,
+              firstName: member.firstName
             }
-            )})
+            )});
         }          
         });
       
@@ -148,8 +161,13 @@ export default function CreateNewFamily(props){
                 />
                 <p>Members</p>
                 <div id='members'>
-                  {fieldMemberArray.map(member=> {
-                    return member;
+                  {fieldMemberArray.map((member,index)=> {
+                    return (
+                      <fieldset key={`member${index}`} id={`member${index}`} name={`member${index}`}>
+                        {member}
+                        <button value={index} type='button' onClick={removeMemberField}>Remove</button>
+                      </fieldset>
+                    )
                   })}
                 </div>
                 <button

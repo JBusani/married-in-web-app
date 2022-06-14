@@ -6,7 +6,6 @@ const MemberFieldSet = ({memberNumber}) => {
 //need to update family with member name
     return (
         <>
-        <fieldset id={`member${memberNumber}`} name={`member${memberNumber}`}>
             <legend>Member{memberNumber}</legend>
                   <input 
                     type="text" 
@@ -47,7 +46,6 @@ const MemberFieldSet = ({memberNumber}) => {
                       />
                     </label>
                   </div>
-                </fieldset>
         </>
     )
 }

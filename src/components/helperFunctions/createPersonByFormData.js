@@ -12,8 +12,10 @@ export default function createPersonByFormData(inputFields, familyName){
         childRole: false,
         existing: false,
         id: "",
-        familyName: familyName
+        familyName: ""
       }
+      console.log(familyName)
+      familyMember.familyName = familyName;
       inputFields.forEach(input => {
         switch(input.id){
           case "firstName":
