@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-const MemberFieldSet = ({memberNumber}) => {
+const MemberFieldSet = ({memberNumber, }) => {
 //may need state to replace values if includes in membercollection on change.
 //then need to update that members families field with the family name
 //need to update family with member name

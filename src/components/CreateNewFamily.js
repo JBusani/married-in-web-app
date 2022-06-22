@@ -23,13 +23,13 @@ export default function CreateNewFamily(props){
         ]))
     }
     function removeMemberField(event){
-      const index = fieldMemberArray
-      console.log(index)
-      console.log(event.target.value)
-      setFieldMemberArray(prevState=>{
-        const newState = prevState.splice(event.target.value, 1);
-       return newState
-      })
+      const indexToRemove = event.target.value;
+      let originalArray = fieldMemberArray;
+      const splicedState = originalArray.splice(indexToRemove, 1);
+      const newState = originalArray.map((member, index) => {
+        return <MemberFieldSet memberNumber={index + 1} />
+      });
+      setFieldMemberArray(newState);
     }
     function handleAddExistingMember(){
       setDisableButton(true);
@@ -147,7 +147,7 @@ export default function CreateNewFamily(props){
       setFilteredCollection(filterResult)
       return filterResult;
     }
- 
+    console.log("create family", "array", fieldMemberArray)
     return (
         <div className={formStyles.formContainer}>
                <form className={formStyles.form} name="FamilyForm" onSubmit={handleSubmit}>

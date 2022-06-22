@@ -12,7 +12,7 @@ const Dashboard = () => {
     const {currentUser, logout, getDocs, collection, onSnapshot, db} = useAuth();
     const [dashboardFamilyArray, setDashboardFamilyArray] = useState([]);
     let navigate = useNavigate();
-    const [ openCollection, setOpenCollection ] = useState(false);
+    const [ openCollection, setOpenCollection ] = useState(true);
     const [ errors, setErrors ] = useState("");
 
     useEffect(()=>{  
